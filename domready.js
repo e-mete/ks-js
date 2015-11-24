@@ -15,38 +15,4 @@
 
 // @win window reference
 // @fn function reference
-function contentLoaded(win, fn) {
-
-	var done = false, top = true,
-
-	doc = win.document,
-	root = doc.documentElement,
-	modern = doc.addEventListener,
-
-	add = modern ? 'addEventListener' : 'attachEvent',
-	rem = modern ? 'removeEventListener' : 'detachEvent',
-	pre = modern ? '' : 'on',
-
-	init = function(e) {
-		if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
-		(e.type == 'load' ? win : doc)[rem](pre + e.type, init, false);
-		if (!done && (done = true)) fn.call(win, e.type || e);
-	},
-
-	poll = function() {
-		try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
-		init('poll');
-	};
-
-	if (doc.readyState == 'complete') fn.call(win, 'lazy');
-	else {
-		if (!modern && root.doScroll) {
-			try { top = !win.frameElement; } catch(e) { }
-			if (top) poll();
-		}
-		doc[add](pre + 'DOMContentLoaded', init, false);
-		doc[add](pre + 'readystatechange', init, false);
-		win[add](pre + 'load', init, false);
-	}
-
-}
+function contentLoaded(b,i){var j=false,k=true,a=b.document,l=a.documentElement,f=a.addEventListener,h=f?'addEventListener':'attachEvent',n=f?'removeEventListener':'detachEvent',g=f?'':'on',c=function(d){if(d.type=='readystatechange'&&a.readyState!='complete')return;(d.type=='load'?b:a)[n](g+d.type,c,false);if(!j&&(j=true))i.call(b,d.type||d)},m=function(){try{l.doScroll('left')}catch(e){setTimeout(m,50);return}c('poll')};if(a.readyState=='complete')i.call(b,'lazy');else{if(!f&&l.doScroll){try{k=!b.frameElement}catch(e){}if(k)m()}a[h](g+'DOMContentLoaded',c,false);a[h](g+'readystatechange',c,false);b[h](g+'load',c,false)}}
